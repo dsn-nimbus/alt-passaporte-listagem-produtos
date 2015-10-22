@@ -2,8 +2,17 @@
   "use strict";
 
   ng.module('alt.passaporte-listagem-produtos', ['alt.passaporte-informacoes-autorizacao'])
-    .service('AltPassaporteListagemProdutosService', ['$http', '$q', 'AuthorizationInfoService', function($http, $q, AuthorizationInfoService) {
-      var URL_PASSAPORTE_PRODUTOS = '/passaporte-rest-api/rest/produtos';
+    .provider('AltPassaporteUrlBaseListagemProdutos', [function() {
+      this.url = '';
+
+      this.$get = [function() {
+        return this.url;
+      }];
+    }])
+    .service('AltPassaporteListagemProdutosService', ['$http', '$q', 'AltPassaporteAuthorizationInfoService', 'AltPassaporteUrlBaseListagemProdutos', function($http, $q, AltPassaporteAuthorizationInfoService, AltPassaporteUrlBaseListagemProdutos) {
+      var URL_PASSAPORTE_PRODUTOS = AltPassaporteUrlBaseListagemProdutos + '/passaporte-rest-api/rest/produtos';
+
+      this._altPassaporteAuthorizationInfoService = new AltPassaporteAuthorizationInfoService(AltPassaporteUrlBaseListagemProdutos);
 
       this._parseHttp = function() {
         return $http.get(URL_PASSAPORTE_PRODUTOS).then(function(p) {
@@ -12,7 +21,7 @@
       };
 
       this.getProdutos = function getProdutos() {
-        return $q.all([AuthorizationInfoService.getToken(), this._parseHttp()])
+        return $q.all([this._altPassaporteAuthorizationInfoService.getToken(), this._parseHttp()])
                  .then(function(resultado) {
                    var _token = resultado[0];
                    var _produtosWrapper = resultado[1];
