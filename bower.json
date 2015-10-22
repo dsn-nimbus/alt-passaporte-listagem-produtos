@@ -3,7 +3,9 @@
   "main": "dist/alt-passaporte-listagem-produtos.min.js",
   "version": "0.0.1",
   "homepage": "https://github.com/dsn-nimbus/alt-passaporte-listagem-produtos.git",
-  "authors": ["dsn-nimbus <ericdantas0@gmail.com>"],
+  "authors": [
+    "dsn-nimbus <ericdantas0@gmail.com>"
+  ],
   "description": "desc",
   "keywords": [],
   "license": "MIT",
@@ -22,11 +24,10 @@
     "*.conf.js"
   ],
   "dependencies": {
-    "angular": ">=1.0.8"
+    "angular": ">=1.0.8",
+    "alt-passaporte-informacoes-autorizacao": "~0.0.1"
   },
-  "devDependencies":
-  {
+  "devDependencies": {
     "angular-mocks": ">=1.0.8"
   }
-
 }
