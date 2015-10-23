@@ -2,6 +2,9 @@
   "use strict";
 
   ng.module('alt.passaporte-listagem-produtos', ['alt.passaporte-informacoes-autorizacao'])
+    .config(['$httpProvider', function($httpProvider) {
+      $httpProvider.defaults.withCredentials = true;
+    }])
     .provider('AltPassaporteUrlBaseListagemProdutos', [function() {
       this.url = '';
 

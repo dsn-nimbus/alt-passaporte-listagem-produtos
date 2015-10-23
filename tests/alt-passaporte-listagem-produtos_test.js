@@ -1,14 +1,15 @@
 "use strict";
 
 describe('alt.passaporte-listagem-produtos', function() {
-  var _rootScope, _httpBackend, _q, _AltPassaporteListagemProdutosService, _AltPassaporteUrlBase;
+  var _rootScope, _httpBackend, _q, _AltPassaporteListagemProdutosService, _AltPassaporteUrlBase, _httpProvider;
   var TOKEN = 'abc123123';
   var BASE_URL_PASSAPORTE = 'http://123.com';
   var URL_PASSAPORTE_PRODUTOS = BASE_URL_PASSAPORTE + '/passaporte-rest-api/rest/produtos';
   var URL_PASSAPORTE_TOKEN = BASE_URL_PASSAPORTE + '/passaporte-rest-api/rest/authorization/token';
 
-  beforeEach(module('alt.passaporte-listagem-produtos', function(AltPassaporteUrlBaseListagemProdutosProvider) {
+  beforeEach(module('alt.passaporte-listagem-produtos', function(AltPassaporteUrlBaseListagemProdutosProvider, $httpProvider) {
     AltPassaporteUrlBaseListagemProdutosProvider.url = BASE_URL_PASSAPORTE;
+    _httpProvider = $httpProvider;
   }));
 
   beforeEach(inject(function($injector) {
@@ -22,6 +23,10 @@ describe('alt.passaporte-listagem-produtos', function() {
     it('deve criar o service corretamente', function() {
         expect(typeof _AltPassaporteListagemProdutosService).toBe('object');
     });
+
+    it('deve ter o $httpProvider.defaults.withCredentials setado como true', function() {
+      expect(_httpProvider.defaults.withCredentials).toBe(true);
+    })
   });
 
   describe('getProdutos', function() {
@@ -176,7 +181,6 @@ describe('alt.passaporte-listagem-produtos', function() {
         habilitados: _produtosHabilitadosResposta,
         disponiveis: _produtosDisponiveisResposta
       };
-
 
       _httpBackend.expectGET(URL_PASSAPORTE_TOKEN).respond(200, _token);
       _httpBackend.expectGET(URL_PASSAPORTE_PRODUTOS).respond(200, _produtoWrapper);
