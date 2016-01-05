@@ -199,7 +199,7 @@ describe('alt.passaporte-listagem-produtos', function() {
     });
   });
 
-  describe('_ordenaPorNome', function() {
+  describe('ordenaPorNome', function() {
     it('deve ordenar os produtos por nome - não existe passaporte ou passaporte admin', function() {
       var _produtos = {
         habilitados: [
@@ -210,7 +210,7 @@ describe('alt.passaporte-listagem-produtos', function() {
         ]
       };
 
-      var _resultado = _AltPassaporteListagemProdutosService._ordenaPorNome(_produtos);
+      var _resultado = _AltPassaporteListagemProdutosService.ordenaPorNome(_produtos);
 
       expect(_resultado.habilitados[0]).toEqual({nome: 'a'});
       expect(_resultado.habilitados[1]).toEqual({nome: 'b'});
@@ -229,7 +229,7 @@ describe('alt.passaporte-listagem-produtos', function() {
         ]
       };
 
-      var _resultado = _AltPassaporteListagemProdutosService._ordenaPorNome(_produtos);
+      var _resultado = _AltPassaporteListagemProdutosService.ordenaPorNome(_produtos);
 
       expect(_resultado.habilitados[0]).toEqual({nome: 'Passaporte'});
       expect(_resultado.habilitados[1]).toEqual({nome: 'a'});
@@ -249,7 +249,7 @@ describe('alt.passaporte-listagem-produtos', function() {
         ]
       };
 
-      var _resultado = _AltPassaporteListagemProdutosService._ordenaPorNome(_produtos);
+      var _resultado = _AltPassaporteListagemProdutosService.ordenaPorNome(_produtos);
 
       expect(_resultado.habilitados[0]).toEqual({nome: 'Passaporte Admin'});
       expect(_resultado.habilitados[1]).toEqual({nome: 'a'});
@@ -270,7 +270,7 @@ describe('alt.passaporte-listagem-produtos', function() {
         ]
       };
 
-      var _resultado = _AltPassaporteListagemProdutosService._ordenaPorNome(_produtos);
+      var _resultado = _AltPassaporteListagemProdutosService.ordenaPorNome(_produtos);
 
       expect(_resultado.habilitados[0]).toEqual({nome: 'Passaporte'});
       expect(_resultado.habilitados[1]).toEqual({nome: 'Passaporte Admin'});
@@ -278,7 +278,7 @@ describe('alt.passaporte-listagem-produtos', function() {
       expect(_resultado.habilitados[3]).toEqual({nome: 'b'});
       expect(_resultado.habilitados[4]).toEqual({nome: 'c'});
       expect(_resultado.habilitados[5]).toEqual({nome: 'x'});
-    });
+    });    
 
     it('deve ordenar os produtos por nome - existem ambos passaporte admin e passaporte', function() {
       var _produtos = {
@@ -292,7 +292,7 @@ describe('alt.passaporte-listagem-produtos', function() {
         ]
       };
 
-      var _resultado = _AltPassaporteListagemProdutosService._ordenaPorNome(_produtos);
+      var _resultado = _AltPassaporteListagemProdutosService.ordenaPorNome(_produtos);
 
       expect(_resultado.habilitados[0]).toEqual({nome: 'Passaporte'});
       expect(_resultado.habilitados[1]).toEqual({nome: 'Passaporte Admin'});

@@ -34,7 +34,7 @@
         }
       };
 
-      this._ordenaPorNome = function(produtosWrapper) {
+      this.ordenaPorNome = function(produtosWrapper) {
           var self = this;
 
           var _produtosWrapper = produtosWrapper || {};
@@ -67,7 +67,7 @@
                                                                                       + ph.chave;
                    });
 
-                   return self._ordenaPorNome(_produtosWrapper);
+                   return self.ordenaPorNome(_produtosWrapper);
                  })
                  .catch(function(erro) {
                    return $q.reject(erro);
