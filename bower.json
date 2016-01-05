@@ -1,7 +1,7 @@
 {
   "name": "alt-passaporte-listagem-produtos",
   "main": "dist/alt-passaporte-listagem-produtos.min.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/dsn-nimbus/alt-passaporte-listagem-produtos.git",
   "authors": [
     "dsn-nimbus <ericdantas0@gmail.com>"

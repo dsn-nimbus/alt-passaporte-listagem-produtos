@@ -12,7 +12,7 @@
         return this.url;
       }];
     }])
-    .service('AltPassaporteListagemProdutosService', ['$http', '$q', 'AltPassaporteAuthorizationInfoService', 'AltPassaporteUrlBaseListagemProdutos', function($http, $q, AltPassaporteAuthorizationInfoService, AltPassaporteUrlBaseListagemProdutos) {
+    .service('AltPassaporteListagemProdutosService', ['$http', '$q', '$filter', 'AltPassaporteAuthorizationInfoService', 'AltPassaporteUrlBaseListagemProdutos', function($http, $q, $filter, AltPassaporteAuthorizationInfoService, AltPassaporteUrlBaseListagemProdutos) {
       var URL_PASSAPORTE_PRODUTOS = AltPassaporteUrlBaseListagemProdutos + '/passaporte-rest-api/rest/produtos';
 
       this._altPassaporteAuthorizationInfoService = new AltPassaporteAuthorizationInfoService(AltPassaporteUrlBaseListagemProdutos);
@@ -23,7 +23,38 @@
         });
       };
 
+      this._adicionaPassaporteNoTopoDaLista = function(listaProd, prod, nomePassaporte, indice) {
+        var _nomeProd = ng.lowercase(prod.nome);
+
+        if (_nomeProd === nomePassaporte) {
+          listaProd.splice(indice, 1);
+          listaProd.unshift(prod);
+
+          return;
+        }
+      };
+
+      this._ordenaPorNome = function(produtosWrapper) {
+          var self = this;
+
+          var _produtosWrapper = produtosWrapper || {};
+
+          _produtosWrapper.habilitados = $filter('orderBy')(produtosWrapper.habilitados, 'nome') || [];
+
+          ng.forEach(_produtosWrapper.habilitados, function(prod, indice) {
+              self._adicionaPassaporteNoTopoDaLista(_produtosWrapper.habilitados, prod, "passaporte admin", indice);
+          });
+
+          ng.forEach(_produtosWrapper.habilitados, function(prod, indice) {
+              self._adicionaPassaporteNoTopoDaLista(_produtosWrapper.habilitados, prod, "passaporte", indice);
+          });
+
+          return _produtosWrapper;
+      };
+
       this.getProdutos = function getProdutos() {
+        var self = this;
+
         return $q.all([this._altPassaporteAuthorizationInfoService.getToken(), this._parseHttp()])
                  .then(function(resultado) {
                    var _token = resultado[0];
@@ -36,7 +67,7 @@
                                                                                       + ph.chave;
                    });
 
-                   return _produtosWrapper;
+                   return self._ordenaPorNome(_produtosWrapper);
                  })
                  .catch(function(erro) {
                    return $q.reject(erro);
