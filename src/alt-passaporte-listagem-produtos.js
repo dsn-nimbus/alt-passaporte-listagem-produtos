@@ -12,7 +12,8 @@
       return this.url;
     }];
   }])
-  .service('AltPassaporteListagemProdutosService', ['$http', '$q', '$filter', 'AltPassaporteAuthorizationInfoService', 'AltPassaporteUrlBaseListagemProdutos', function($http, $q, $filter, AltPassaporteAuthorizationInfoService, AltPassaporteUrlBaseListagemProdutos) {
+  .service('AltPassaporteListagemProdutosService', ['$http', '$q', 'AltPassaporteAuthorizationInfoService', 'AltPassaporteUrlBaseListagemProdutos', 
+  function($http, $q, AltPassaporteAuthorizationInfoService, AltPassaporteUrlBaseListagemProdutos) {
     var URL_PASSAPORTE_PRODUTOS = AltPassaporteUrlBaseListagemProdutos + '/passaporte-rest-api/rest/produtos/:prop';
 
     this._altPassaporteAuthorizationInfoService = new AltPassaporteAuthorizationInfoService(AltPassaporteUrlBaseListagemProdutos);
@@ -25,35 +26,6 @@
       return $http.get(url).then(function(p) {
         return p.data || {};
       });
-    };
-
-    this._adicionaPassaporteNoTopoDaLista = function(listaProd, prod, nomePassaporte, indice) {
-      var _nomeProd = ng.lowercase(prod.nome);
-
-      if (_nomeProd === nomePassaporte) {
-        listaProd.splice(indice, 1);
-        listaProd.unshift(prod);
-
-        return;
-      }
-    };
-
-    this.ordenaPorNome = function(produtosWrapper) {
-      var self = this;
-
-      var _produtosWrapper = produtosWrapper || {};
-
-      _produtosWrapper.habilitados = $filter('orderBy')(produtosWrapper.habilitados, 'nome') || [];
-
-      ng.forEach(_produtosWrapper.habilitados, function(prod, indice) {
-        self._adicionaPassaporteNoTopoDaLista(_produtosWrapper.habilitados, prod, "passaporte admin", indice);
-      });
-
-      ng.forEach(_produtosWrapper.habilitados, function(prod, indice) {
-        self._adicionaPassaporteNoTopoDaLista(_produtosWrapper.habilitados, prod, "passaporte", indice);
-      });
-
-      return _produtosWrapper;
     };
 
     this._getProdutos = function(prop) {
@@ -71,7 +43,7 @@
             + ph.chave;
           });
 
-        return self.ordenaPorNome(_produtosWrapper);
+        return _produtosWrapper;
       });
     }
 
@@ -88,7 +60,6 @@
 
       return this._getProdutos('habilitados');
     };
-
   }]);
 
 }(angular));

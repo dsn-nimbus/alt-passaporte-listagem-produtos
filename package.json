@@ -1,9 +1,11 @@
 {
   "name": "alt-passaporte-listagem-produtos",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/alt-passaporte-listagem-produtos.min.js",
   "scripts": {
-    "test": "gulp coverage"
+    "build": "gulp build",
+    "test": "gulp unit_test",
+    "test-travis": "gulp coverage"
   },
   "dependencies": {},
   "devDependencies": {
